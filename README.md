@@ -3,7 +3,7 @@
 A highly responsive, data-driven personal portfolio website built to showcase my projects, skills, and experience in Machine Learning, Deep Learning, and Software Engineering.
 
 ## 🚀 Live Demo
-[Link to your live Vercel website will go here once deployed]
+narinderpartapsingh.me
 
 ## 🛠️ Tech Stack
 * **Frontend:** HTML5, CSS3 (Custom Design Tokens & Glassmorphism), Vanilla JavaScript
