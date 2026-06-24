@@ -168,7 +168,7 @@ const portfolioData = {
       subtitle: "Web-Based Administrative Portal",
       description:
         "A full-featured web management portal featuring distinct student and administrative portals, leave request workflows, approval systems, and a responsive front-end interface.",
-      image: null,
+      image: "assets/projects/image_leave.png", // Replace with actual image path
       imagePlaceholderColor: "#10b981",
       imagePlaceholderIcon: "🏠",
       tags: ["HTML5", "CSS3", "JavaScript", "Web Dev", "UI/UX"],
