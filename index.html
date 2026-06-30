@@ -710,6 +710,7 @@
       border:1px solid var(--border-dim);
       border-radius:var(--radius-md);
       transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      min-width: 0;
     }
     .contact-item:hover {
       border-color: var(--accent-blue);
@@ -717,8 +718,13 @@
       transform: translateY(-3px);
     }
     .contact-item-icon { font-size:1.3rem; width:36px; text-align:center; flex-shrink:0; }
+    .contact-item-text { min-width: 0; }
     .contact-item-label { font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono); }
-    .contact-item-val { font-size:0.9rem; font-weight:500; color:var(--text-primary); margin-top:2px; }
+    .contact-item-val {
+      font-size:0.9rem; font-weight:500; color:var(--text-primary); margin-top:2px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
 
     /* ─── FOOTER ─────────────────────────────────────────────── */
     footer {
@@ -1159,7 +1165,7 @@ document.addEventListener('keydown', (e) => {
   document.getElementById('contact-info').innerHTML = items.map(i=>`
     <a href="${i.href}" ${i.href.startsWith('http')?'target="_blank"':''} class="contact-item reveal">
       <div class="contact-item-icon">${i.icon}</div>
-      <div>
+      <div class="contact-item-text">
         <div class="contact-item-label">${i.label}</div>
         <div class="contact-item-val">${i.val}</div>
       </div>
