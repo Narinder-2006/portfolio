@@ -9,17 +9,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <!-- Leaflet for map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <style>
     /* ─── DESIGN TOKENS ──────────────────────────────────────── */
     :root {
-      --bg-void:       #090c14;
-      --bg-surface:    #0f1420;
-      --bg-elevated:   #151c2e;
-      --bg-glass:      rgba(21,28,46,0.72);
+      --bg-void:       #000000;
+      --bg-surface:    #0a0a0a;
+      --bg-elevated:   #121212;
+      --bg-glass:      rgba(18,18,18,0.72);
 
       --accent-blue:   #38bdf8;
       --accent-violet: #818cf8;
@@ -109,7 +105,7 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px;
       height: 64px;
-      background: rgba(9,12,20,0.82);
+      background: rgba(0,0,0,0.82);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border-dim);
       transition: box-shadow 0.3s;
@@ -320,32 +316,50 @@
     .about-card-title { font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
     .about-card-text { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
 
-    /* ─── EDUCATION ──────────────────────────────────────────── */
-    .edu-cards { display:flex; flex-direction:column; gap:20px; }
+    /* ─── EDUCATION (ROADMAP) ────────────────────────────────── */
+    .edu-roadmap {
+      position: relative;
+      padding-left: 48px;
+    }
+    .edu-roadmap::before {
+      content:'';
+      position: absolute;
+      left: 17px; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-blue), var(--accent-violet), var(--border-dim));
+    }
+    .edu-node {
+      position: relative;
+      margin-bottom: 36px;
+    }
+    .edu-node:last-child { margin-bottom: 0; }
+    .edu-node-dot {
+      position: absolute;
+      left: -48px; top: 4px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 2px solid var(--accent-blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 0 18px rgba(56,189,248,0.35);
+      z-index: 2;
+    }
     .edu-card {
       background: var(--bg-elevated);
       border: 1px solid var(--border-dim);
       border-radius: var(--radius-lg);
-      padding: 24px 28px;
-      display: flex; align-items: flex-start; gap: 18px;
+      padding: 22px 26px;
       transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-      position: relative; overflow: hidden;
-    }
-    .edu-card::before {
-      content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
-      background: linear-gradient(180deg, var(--accent-blue), var(--accent-violet));
-      opacity:0; transition: opacity 0.3s;
     }
     .edu-card:hover {
       transform: translateX(6px);
       border-color: rgba(56,189,248,0.3);
       box-shadow: var(--glow-blue);
     }
-    .edu-card:hover::before { opacity:1; }
-    .edu-icon { font-size:2rem; flex-shrink:0; }
     .edu-degree { font-weight:700; font-size:1rem; color:var(--text-primary); margin-bottom:4px; }
     .edu-inst { font-size:0.85rem; color:var(--accent-blue); margin-bottom:6px; }
-    .edu-meta { display:flex; gap:14px; }
+    .edu-meta { display:flex; gap:14px; flex-wrap:wrap; }
     .edu-chip {
       font-family:var(--font-mono); font-size:0.72rem;
       padding:3px 10px; border-radius:100px;
@@ -354,13 +368,35 @@
     }
 
     /* ─── SKILLS ─────────────────────────────────────────────── */
-    .skills-section { display:flex; flex-direction:column; gap:36px; }
+    .skills-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .skill-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-box:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
     .skill-group-title {
       display:flex; align-items:center; gap:12px;
       font-size:0.95rem; font-weight:600;
-      color: var(--text-primary); margin-bottom:14px;
+      color: var(--text-primary); margin-bottom:16px;
     }
-    .skill-group-title span { font-size:1.4rem; }
+    .skill-group-icon {
+      width: 38px; height: 38px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
     .skill-chips { display:flex; flex-wrap:wrap; gap:10px; }
     .skill-chip {
       display:flex; align-items:center; gap:6px;
@@ -509,20 +545,72 @@
     .project-body { padding:22px; flex:1; display:flex; flex-direction:column; }
     .project-title { font-size:1.05rem; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
     .project-subtitle {
-      font-family:var(--font-mono); font-size:0.72rem;
-      color:var(--accent-blue); margin-bottom:12px;
+      font-family:var(--font-mono); font-size:0.78rem;
+      color:var(--text-secondary); line-height:1.6; flex:1; margin-bottom:18px;
     }
-    .project-desc { font-size:0.84rem; color:var(--text-secondary); line-height:1.7; flex:1; margin-bottom:16px; }
-    .project-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+    .project-view-btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:10px 16px;
+      border-radius:var(--radius-sm);
+      font-size:0.82rem; font-weight:600;
+      cursor:pointer; transition: all 0.2s;
+      background: rgba(56,189,248,0.1);
+      border:1px solid rgba(56,189,248,0.3);
+      color:var(--accent-blue);
+      width: 100%;
+    }
+    .project-view-btn:hover {
+      background: rgba(56,189,248,0.2);
+      border-color: var(--accent-blue);
+      box-shadow: 0 4px 20px rgba(56,189,248,0.2);
+    }
+
+    /* ─── PROJECT MODAL ──────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-start; justify-content: center;
+      padding: 60px 20px;
+      overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-xl);
+      max-width: 760px; width: 100%;
+      padding: 36px;
+      position: relative;
+      animation: fadeUp 0.35s ease both;
+    }
+    .modal-close {
+      position: absolute; top: 18px; right: 18px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-dim);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--text-secondary); cursor:pointer; font-size:1.1rem;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.14); color:var(--text-primary); transform: rotate(90deg); }
+    .modal-status { margin-bottom: 18px; }
+    .modal-media { width:100%; border-radius: var(--radius-md); overflow:hidden; margin-bottom: 22px; background:#000; }
+    .modal-media video, .modal-media img { width:100%; display:block; max-height: 420px; object-fit: contain; background:#000; }
+    .modal-title { font-size:1.5rem; font-weight:700; color:var(--text-primary); margin-bottom:8px; }
+    .modal-subtitle { font-size:0.95rem; color:var(--text-secondary); margin-bottom:18px; }
+    .modal-desc { font-size:0.9rem; color:var(--text-secondary); line-height:1.8; margin-bottom:22px; }
+    .modal-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px; }
+    .modal-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
     .project-tag {
-      font-family:var(--font-mono); font-size:0.68rem;
-      padding:2px 8px; border-radius:100px;
+      font-family:var(--font-mono); font-size:0.72rem;
+      padding:4px 10px; border-radius:100px;
       background: rgba(56,189,248,0.08);
       border:1px solid var(--border-dim);
       color:var(--accent-blue);
-      transition: background 0.2s, border-color 0.2s;
     }
-    .project-card:hover .project-tag { background: rgba(56,189,248,0.14); border-color: rgba(56,189,248,0.3); }
 
     /* Project actions */
     .project-actions {
@@ -609,17 +697,15 @@
     .achievement-title { font-weight:700; font-size:0.92rem; margin-bottom:4px; }
     .achievement-detail { font-size:0.8rem; color:var(--text-secondary); }
 
-    /* ─── CONTACT / MAP ──────────────────────────────────────── */
-    .contact-grid {
+    /* ─── CONTACT ────────────────────────────────────────────── */
+    .contact-info {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: start;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
     }
-    .contact-info { display:flex; flex-direction:column; gap:16px; }
     .contact-item {
       display:flex; align-items:center; gap:14px;
-      padding:16px 20px;
+      padding:18px 20px;
       background: var(--bg-elevated);
       border:1px solid var(--border-dim);
       border-radius:var(--radius-md);
@@ -628,19 +714,11 @@
     .contact-item:hover {
       border-color: var(--accent-blue);
       background: rgba(56,189,248,0.04);
-      transform: translateX(4px);
+      transform: translateY(-3px);
     }
     .contact-item-icon { font-size:1.3rem; width:36px; text-align:center; flex-shrink:0; }
     .contact-item-label { font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono); }
     .contact-item-val { font-size:0.9rem; font-weight:500; color:var(--text-primary); margin-top:2px; }
-    #map-container {
-      height: 380px;
-      border-radius:var(--radius-lg);
-      overflow:hidden;
-      border:1px solid var(--border-dim);
-      transition: box-shadow 0.3s;
-    }
-    #map-container:hover { box-shadow: var(--glow-blue); }
 
     /* ─── FOOTER ─────────────────────────────────────────────── */
     footer {
@@ -674,7 +752,6 @@
       .hero-inner { grid-template-columns:1fr; }
       .hero-avatar-card { max-width:360px; margin:0 auto; }
       .about-grid { grid-template-columns:1fr; }
-      .contact-grid { grid-template-columns:1fr; }
       .projects-grid { grid-template-columns:1fr; }
       .nav-links { gap:18px; }
     }
@@ -735,7 +812,7 @@
 <section id="education">
   <div class="section-label">03 — Education</div>
   <h2 class="section-title">Academic <span>Background</span></h2>
-  <div class="edu-cards" id="edu-cards"></div>
+  <div class="edu-roadmap" id="edu-cards"></div>
 </section>
 
 <div class="section-divider"></div>
@@ -756,6 +833,10 @@
   <div class="projects-grid" id="projects-grid"></div>
 </section>
 
+<div class="modal-overlay" id="project-modal">
+  <div class="modal-box" id="project-modal-box"></div>
+</div>
+
 <div class="section-divider"></div>
 
 <!-- ═══════════════════════════════════════════════ ACHIEVEMENTS -->
@@ -771,10 +852,7 @@
 <section id="contact">
   <div class="section-label">07 — Contact</div>
   <h2 class="section-title">Let's <span>Connect</span></h2>
-  <div class="contact-grid">
-    <div class="contact-info" id="contact-info"></div>
-    <div id="map-container"></div>
-  </div>
+  <div class="contact-info" id="contact-info"></div>
 </section>
 
 <footer>
@@ -895,10 +973,11 @@ window.addEventListener('scroll', () => {
 
 /* ═══════════ EDUCATION ═══════════ */
 (function renderEducation() {
-  document.getElementById('edu-cards').innerHTML = portfolioData.education.map(e => `
-    <div class="edu-card reveal">
-      <div class="edu-icon">${e.icon}</div>
-      <div>
+  const chrono = [...portfolioData.education].reverse(); // earliest first
+  document.getElementById('edu-cards').innerHTML = chrono.map(e => `
+    <div class="edu-node reveal">
+      <div class="edu-node-dot">${e.icon}</div>
+      <div class="edu-card">
         <div class="edu-degree">${e.degree}</div>
         <div class="edu-inst">${e.institution}</div>
         <div class="edu-meta">
@@ -916,6 +995,7 @@ window.addEventListener('scroll', () => {
     const chipBg = hexToRgba(group.color, 0.1);
     const chipBorder = hexToRgba(group.color, 0.3);
     const chipHoverBg = hexToRgba(group.color, 0.2);
+    const iconBg = hexToRgba(group.color, 0.15);
     const chips = group.items.map(item => `
       <span class="skill-chip reveal"
         style="background:${chipBg}; border-color:${chipBorder}; color:${group.color};"
@@ -924,9 +1004,9 @@ window.addEventListener('scroll', () => {
       >${item}</span>
     `).join('');
     return `
-      <div class="reveal">
+      <div class="skill-box reveal" onmouseover="this.style.borderColor='${hexToRgba(group.color,0.5)}'" onmouseout="this.style.borderColor='var(--border-dim)'">
         <div class="skill-group-title">
-          <span>${group.icon}</span>
+          <span class="skill-group-icon" style="background:${iconBg};">${group.icon}</span>
           <span>${group.category}</span>
         </div>
         <div class="skill-chips">${chips}</div>
@@ -957,6 +1037,69 @@ window.addEventListener('scroll', () => {
 })();
 
 /* ═══════════ PROJECTS ═══════════ */
+function isVideoFile(src) {
+  return /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(src || '');
+}
+
+function openProjectModal(id) {
+  const proj = portfolioData.projects.find(p => p.id === id);
+  if (!proj) return;
+
+  let mediaHTML = '';
+  if (proj.demo && isVideoFile(proj.demo)) {
+    mediaHTML = `<div class="modal-media"><video src="${proj.demo}" controls autoplay muted playsinline></video></div>`;
+  } else if (proj.image) {
+    mediaHTML = `<div class="modal-media"><img src="${proj.image}" alt="${proj.title}" /></div>`;
+  } else if (proj.demo) {
+    mediaHTML = `<div class="modal-media"><video src="${proj.demo}" controls autoplay muted playsinline></video></div>`;
+  }
+
+  const githubBtn = proj.github
+    ? `<a href="${proj.github}" target="_blank" class="project-action-btn github">⌥ GitHub</a>`
+    : `<span class="project-action-btn placeholder" title="GitHub link coming soon">⌥ GitHub</span>`;
+  const demoBtn = proj.demo
+    ? `<a href="${proj.demo}" target="_blank" class="project-action-btn demo">🌐 ${isVideoFile(proj.demo) ? 'Open Video' : 'Live Demo'}</a>`
+    : `<span class="project-action-btn placeholder" title="Demo coming soon">🌐 Demo</span>`;
+  const workflowBtn = proj.workflow
+    ? `<a href="${proj.workflow}" target="_blank" class="project-action-btn workflow">▶ Workflow</a>`
+    : `<span class="project-action-btn placeholder" title="Workflow coming soon">▶ Workflow</span>`;
+
+  const statusCls = proj.status.toLowerCase();
+
+  document.getElementById('project-modal-box').innerHTML = `
+    <div class="modal-close" onclick="closeProjectModal()">✕</div>
+    <div class="modal-status">
+      <span class="project-status-badge ${statusCls}" style="position:static;">${proj.status === 'Published' ? '📄' : '✅'} ${proj.status}</span>
+      ${proj.featured ? `<span class="project-featured-badge" style="position:static; margin-left:8px;">⭐ Featured</span>` : ''}
+    </div>
+    ${mediaHTML}
+    <div class="modal-title">${proj.title}</div>
+    <div class="modal-subtitle">${proj.subtitle}</div>
+    <div class="modal-desc">${proj.description}</div>
+    <div class="modal-tags">${proj.tags.map(t=>`<span class="project-tag">${t}</span>`).join('')}</div>
+    <div class="modal-actions">
+      ${githubBtn}
+      ${demoBtn}
+      ${workflowBtn}
+    </div>
+  `;
+  document.getElementById('project-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjectModal() {
+  document.getElementById('project-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('project-modal-box').innerHTML = '';
+}
+
+document.getElementById('project-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'project-modal') closeProjectModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeProjectModal();
+});
+
 (function renderProjects() {
   document.getElementById('projects-grid').innerHTML = portfolioData.projects.map(proj => {
     // Image area
@@ -972,22 +1115,9 @@ window.addEventListener('scroll', () => {
       `;
     }
 
-    // Action buttons
-    const githubBtn = proj.github
-      ? `<a href="${proj.github}" target="_blank" class="project-action-btn github">⌥ GitHub</a>`
-      : `<span class="project-action-btn placeholder" title="GitHub link coming soon">⌥ GitHub</span>`;
-
-    const demoBtn = proj.demo
-      ? `<a href="${proj.demo}" target="_blank" class="project-action-btn demo">🌐 Live Demo</a>`
-      : `<span class="project-action-btn placeholder" title="Demo coming soon">🌐 Demo</span>`;
-
-    const workflowBtn = proj.workflow
-      ? `<a href="${proj.workflow}" target="_blank" class="project-action-btn workflow">▶ workflow</a>`
-      : `<span class="project-action-btn placeholder" title="workflow coming soon">▶ workflow</span>`;
-
     const statusCls = proj.status.toLowerCase();
     return `
-      <div class="project-card ${proj.featured ? 'featured' : ''} reveal">
+      <div class="project-card ${proj.featured ? 'featured' : ''} reveal" onclick="openProjectModal(${proj.id})" style="cursor:pointer;">
         <div class="project-image-wrap">
           ${imgHTML}
           <div class="project-img-overlay"></div>
@@ -997,15 +1127,7 @@ window.addEventListener('scroll', () => {
         <div class="project-body">
           <div class="project-title">${proj.title}</div>
           <div class="project-subtitle">${proj.subtitle}</div>
-          <div class="project-desc">${proj.description}</div>
-          <div class="project-tags">
-            ${proj.tags.map(t=>`<span class="project-tag">${t}</span>`).join('')}
-          </div>
-          <div class="project-actions">
-            ${githubBtn}
-            ${demoBtn}
-            ${workflowBtn}
-          </div>
+          <div class="project-view-btn">View details →</div>
         </div>
       </div>
     `;
@@ -1031,7 +1153,6 @@ window.addEventListener('scroll', () => {
   const items = [
     { icon:'✉', label:'Email', val: p.email, href:`mailto:${p.email}` },
     { icon:'📞', label:'Phone', val: p.phone, href:`tel:${p.phone}` },
-    { icon:'📍', label:'Location', val:`${p.location.city}, ${p.location.state}, ${p.location.country}`, href:'#contact' },
     { icon:'🔗', label:'LinkedIn', val:'narinder-partap-singh-4038642a4', href:p.links.linkedin },
     { icon:'⌗', label:'LeetCode', val:'aLzY9H8vlT', href:p.links.leetcode },
   ];
@@ -1044,32 +1165,6 @@ window.addEventListener('scroll', () => {
       </div>
     </a>
   `).join('');
-})();
-
-/* ═══════════ LEAFLET MAP ═══════════ */
-(function initMap() {
-  const loc = portfolioData.profile.location;
-  const map = L.map('map-container', { zoomControl:false }).setView([loc.lat, loc.lng], 11);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution:'&copy; OpenStreetMap &copy; CARTO',
-    subdomains:'abcd', maxZoom:19,
-  }).addTo(map);
-  L.control.zoom({ position:'bottomright' }).addTo(map);
-
-  const icon = L.divIcon({
-    html:`<div style="
-      width:42px;height:42px;border-radius:50%;
-      background:linear-gradient(135deg,#38bdf8,#818cf8);
-      display:flex;align-items:center;justify-content:center;
-      font-size:18px;
-      box-shadow:0 0 20px rgba(56,189,248,0.6);
-      border:2px solid rgba(255,255,255,0.3);
-    ">🧑‍💻</div>`,
-    className:'', iconSize:[42,42], iconAnchor:[21,21],
-  });
-  L.marker([loc.lat,loc.lng],{icon}).addTo(map)
-    .bindPopup(`<b>${portfolioData.profile.name}</b><br>${loc.city}, ${loc.state}`)
-    .openPopup();
 })();
 
 /* ═══════════ SCROLL REVEAL ═══════════ */
